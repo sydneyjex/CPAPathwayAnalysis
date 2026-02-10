@@ -1,0 +1,19 @@
+name: Barrier report generation
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  build-report:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Generate barrier report
+        run: python analysis/barrier_by_group.py
